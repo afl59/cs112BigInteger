@@ -234,6 +234,7 @@ public class BigInteger {
 		 */
 		System.out.println("Returning a result of " + temp.toString()); // DEBUG
 		temp.numDigits = temp.count();
+		System.out.println("front is::" + temp.front);
 		return temp;
 	}
 
@@ -290,6 +291,8 @@ public class BigInteger {
 		else
 			total.negative = true;
 		total.numDigits = total.count();
+		total.clean();
+		System.out.println("front is::" + total.front); // DEBUG
 		return total;
 	}
 
@@ -338,13 +341,15 @@ public class BigInteger {
 		DigitNode curr = front;
 		DigitNode prev = front;
 		while (curr != null) {
-			if(curr.digit != 0) {
+			if (curr.digit != 0) {
 				prev = curr;
 			}
 			curr = curr.next;
 		}
 		if (prev != null)
 			prev.next = null;
+		if (front.digit == 0 && front.next == null)
+			front = null;
 	}
 
 	// Helper method to shift number by one place, to be used for aggregating
@@ -355,10 +360,10 @@ public class BigInteger {
 			front = new DigitNode(0, front);
 		}
 	}
-	
+
 	private int count() {
 		int count = 0;
-		for(DigitNode ptr = front; ptr != null; ptr = ptr.next) {
+		for (DigitNode ptr = front; ptr != null; ptr = ptr.next) {
 			count++;
 		}
 		return count;
